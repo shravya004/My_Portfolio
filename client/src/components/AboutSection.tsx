@@ -12,10 +12,23 @@ export default function AboutSection({ user }: AboutSectionProps) {
           <h2 className="text-4xl font-bold mb-8 text-primary" data-testid="about-title">
             About
           </h2>
-          <div className="prose prose-lg text-secondary space-y-6">
-            <p data-testid="about-bio">
-              {user?.bio || "I'm a Computer Science undergrad with a knack for blending creativity and technology to build impactful solutions. From crafting responsive frontends to deploying intelligent backend systems, I thrive at the intersection of design, logic, and user empathy. Currently exploring real-time ML applications, cybersecurity, and full-stack web development. I've worked with developer communities, led event marketing, and interned on research-heavy teams — all while keeping a sharp focus on building things that solve real problems. When I'm not coding, you'll find me sketching interfaces, experimenting with UI ideas, or helping organize community-driven events. Let's build something awesome together 🚀"}
-            </p>
+          <div className="text-lg text-secondary text-center space-y-6 leading-relaxed">
+            <div data-testid="about-bio">
+              {user?.bio?.split('\n').map((paragraph, index) => (
+                <p key={index} className="mb-4">
+                  {paragraph}
+                </p>
+              )) || (
+                <>
+                  <p className="mb-4">
+                    Currently exploring real-time ML applications, cybersecurity, and full-stack web development. I've worked with developer communities, led event marketing, and interned on research-heavy teams — all while keeping a sharp focus on building things that solve real problems.
+                  </p>
+                  <p>
+                    When I'm not coding, you'll find me sketching interfaces, experimenting with UI ideas, or helping organize community-driven events. Let's build something awesome together 🚀
+                  </p>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

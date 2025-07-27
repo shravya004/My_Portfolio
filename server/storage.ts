@@ -74,13 +74,13 @@ export class MemStorage implements IStorage {
     this.user = {
       id: randomUUID(),
       name: "Shravya Atreya",
-      title: "B.Tech CSE Student",
-      description: "Self-driven Computer Science undergrad with a strong foundation in Software Development, Data structures, and Algorithmic thinking. Built full-stack projects using React, Flask, and TensorFlow at scale.",
-      bio: "Self-driven Computer Science undergrad with a strong foundation in Software Development, Data structures, and Algorithmic thinking. Built full-stack projects using React, Flask, and TensorFlow at scale. Quick to learn new tech independently, accustomed to working with large-scale data flows and eager to own end-to-end project delivery. Currently pursuing B.Tech Computer Science & Engineering at VIT Chennai with expected graduation in August 2027.",
+      title: "Full Stack Developer",
+      description: "A Computer Science undergrad with a knack for blending creativity and technology to build impactful solutions. From crafting responsive frontends to deploying intelligent backend systems, I thrive at the intersection of design, logic, and user empathy.",
+      bio: "Currently exploring real-time ML applications, cybersecurity, and full-stack web development. I've worked with developer communities, led event marketing, and interned on research-heavy teams — all while keeping a sharp focus on building things that solve real problems.\nWhen I'm not coding, you'll find me sketching interfaces, experimenting with UI ideas, or helping organize community-driven events. Let's build something awesome together 🚀",
       email: "shravya.atreya@gmail.com",
       linkedinUrl: "https://linkedin.com/in/shravya-atreya",
-      githubUrl: "https://github.com/shravya-atreya", 
-      twitterUrl: "https://twitter.com/shravya_atreya",
+      githubUrl: "https://github.com/shravya004", 
+      twitterUrl: null,
       profileImage: null,
       aboutImage: null
     };
@@ -110,7 +110,7 @@ export class MemStorage implements IStorage {
         description: "Developed a real-time phishing detection tool leveraging DistilBERT for semantic scoring, combined with metadata-based behavioral heuristics. Combined semantic scoring and user metadata to detect phishing URLs in real time with low-latency inference.",
         image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80",
         liveUrl: "",
-        githubUrl: "",
+        githubUrl: "https://github.com/shravya004/PhishGuard-Real-Time-Phishing-detector",
         technologies: ["Python", "Transformers (DistilBERT)", "FastAPI", "Next.js"],
         featured: "true"
       },
@@ -119,7 +119,7 @@ export class MemStorage implements IStorage {
         description: "Developed a prompt-driven tool to generate structured, professional cover letters based on user input. Demonstrated skills in product design, deployment, and natural language generation logic.",
         image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80",
         liveUrl: "",
-        githubUrl: "",
+        githubUrl: "https://github.com/shravya004/PitchPerfectAI",
         technologies: ["Python", "Streamlit", "Hugging Face Spaces"],
         featured: "true"
       }
@@ -188,11 +188,11 @@ export class MemStorage implements IStorage {
         description: "Postman API Fundamentals Student Expert certification"
       },
       {
-        name: "Artificial Intelligence Foundation",
+        name: "Artificial Intelligence Foundation Certification",
         issuer: "Infosys Springboard",
         dateIssued: "2025",
         credentialUrl: "",
-        description: "Artificial Intelligence Foundation certification"
+        description: "Artificial Intelligence Foundation Certification"
       },
       {
         name: "Artificial Intelligence Primer Certification",

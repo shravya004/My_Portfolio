@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Linkedin, Github, Twitter } from "lucide-react";
+import { Linkedin, Github } from "lucide-react";
 import { User } from "@shared/schema";
 
 export default function Navigation() {
@@ -60,17 +60,7 @@ export default function Navigation() {
                   <Github className="w-5 h-5" />
                 </a>
               )}
-              {user?.twitterUrl && (
-                <a 
-                  href={user.twitterUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-secondary hover:text-accent transition-colors duration-200"
-                  data-testid="nav-twitter"
-                >
-                  <Twitter className="w-5 h-5" />
-                </a>
-              )}
+
             </div>
             <button 
               onClick={() => scrollToSection("home")}

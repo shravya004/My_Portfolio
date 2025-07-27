@@ -146,5 +146,12 @@ RESTful API structure:
 ✓ Added real experiences: VIT Chennai research intern, Infosys intern, club leadership
 ✓ Added verified certifications: Google Cloud, Postman API, Infosys AI certifications
 ✓ Updated personal information: Shravya Atreya, B.Tech CSE Student at VIT Chennai
+✓ Updated GitHub URL to correct link: https://github.com/shravya004
+✓ Changed title from "B.Tech CSE Student" to "Full Stack Developer"
+✓ Updated description to emphasize creativity and technology blend
+✓ Revised about section with current focus areas and personality
+✓ Added GitHub links to both projects (PhishGuard and PitchPerfectAI)
+✓ Removed Twitter icon from navigation
+✓ Fixed certification name: "Artificial Intelligence Foundation Certification"
 
 The architecture prioritizes developer experience with hot reloading, type safety, and modern tooling while maintaining a simple deployment model suitable for platforms like Replit.
