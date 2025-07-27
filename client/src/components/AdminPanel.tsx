@@ -51,6 +51,9 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
       description: "",
       bio: "",
       email: "",
+      linkedinUrl: "",
+      githubUrl: "",
+      twitterUrl: "",
       profileImage: "",
       aboutImage: "",
     },
@@ -175,8 +178,8 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   };
 
   const handleProjectSubmit = (data: InsertProject) => {
-    const techArray = typeof data.technologies === 'string' 
-      ? data.technologies.split(',').map(t => t.trim()).filter(Boolean)
+    const techArray = typeof (data as any).technologies === 'string' 
+      ? (data as any).technologies.split(',').map((t: string) => t.trim()).filter(Boolean)
       : data.technologies;
     
     const projectData = { ...data, technologies: techArray };
@@ -189,8 +192,8 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   };
 
   const handleExperienceSubmit = (data: InsertExperience) => {
-    const techArray = typeof data.technologies === 'string' 
-      ? data.technologies.split(',').map(t => t.trim()).filter(Boolean)
+    const techArray = typeof (data as any).technologies === 'string' 
+      ? (data as any).technologies.split(',').map((t: string) => t.trim()).filter(Boolean)
       : data.technologies;
     
     const experienceData = { ...data, technologies: techArray };
@@ -291,6 +294,35 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
                           {...userForm.register("email")}
                           data-testid="input-profile-email"
                         />
+                      </div>
+                      <div className="grid md:grid-cols-3 gap-4">
+                        <div>
+                          <Label htmlFor="linkedinUrl">LinkedIn URL</Label>
+                          <Input
+                            id="linkedinUrl"
+                            {...userForm.register("linkedinUrl")}
+                            placeholder="https://linkedin.com/in/yourprofile"
+                            data-testid="input-linkedin-url"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="githubUrl">GitHub URL</Label>
+                          <Input
+                            id="githubUrl"
+                            {...userForm.register("githubUrl")}
+                            placeholder="https://github.com/yourusername"
+                            data-testid="input-github-url"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="twitterUrl">Twitter URL</Label>
+                          <Input
+                            id="twitterUrl"
+                            {...userForm.register("twitterUrl")}
+                            placeholder="https://twitter.com/yourusername"
+                            data-testid="input-twitter-url"
+                          />
+                        </div>
                       </div>
                       <div>
                         <Label htmlFor="description">Description</Label>
@@ -394,7 +426,7 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
                 <Card>
                   <CardHeader>
                     <div className="flex justify-between items-center">
-                      <CardTitle>Work Experience</CardTitle>
+                      <CardTitle>Experience</CardTitle>
                       <Button onClick={() => openExperienceDialog()} data-testid="add-experience">
                         <Plus className="w-4 h-4 mr-2" />
                         Add Experience

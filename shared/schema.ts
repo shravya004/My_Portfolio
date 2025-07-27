@@ -10,6 +10,9 @@ export const users = pgTable("users", {
   description: text("description").notNull(),
   bio: text("bio").notNull(),
   email: text("email").notNull(),
+  linkedinUrl: text("linkedin_url"),
+  githubUrl: text("github_url"),
+  twitterUrl: text("twitter_url"),
   profileImage: text("profile_image"),
   aboutImage: text("about_image"),
 });

@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
+import { Linkedin, Github, Twitter } from "lucide-react";
+import { User } from "@shared/schema";
 
 interface NavigationProps {
   onAdminClick: () => void;
@@ -7,6 +10,7 @@ interface NavigationProps {
 
 export default function Navigation({ onAdminClick }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { data: user } = useQuery<User>({ queryKey: ["/api/user"] });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,7 +40,42 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
           <div className="text-xl font-semibold text-primary" data-testid="logo">
             Portfolio
           </div>
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="flex space-x-4">
+              {user?.linkedinUrl && (
+                <a 
+                  href={user.linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-accent transition-colors duration-200"
+                  data-testid="nav-linkedin"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+              )}
+              {user?.githubUrl && (
+                <a 
+                  href={user.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-accent transition-colors duration-200"
+                  data-testid="nav-github"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+              )}
+              {user?.twitterUrl && (
+                <a 
+                  href={user.twitterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-accent transition-colors duration-200"
+                  data-testid="nav-twitter"
+                >
+                  <Twitter className="w-5 h-5" />
+                </a>
+              )}
+            </div>
             <button 
               onClick={() => scrollToSection("home")}
               className="text-secondary hover:text-accent transition-colors duration-200"

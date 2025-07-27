@@ -10,7 +10,7 @@ export default function ExperienceSection() {
     return (
       <section id="experience" className="py-20 px-6 bg-white" data-testid="experience-section-loading">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 text-primary">Work Experience</h2>
+          <h2 className="text-4xl font-bold text-center mb-16 text-primary">Experience</h2>
           <div className="space-y-12">
             {[...Array(2)].map((_, i) => (
               <div key={i} className="flex gap-8 animate-pulse">
@@ -36,7 +36,7 @@ export default function ExperienceSection() {
     <section id="experience" className="py-20 px-6 bg-white" data-testid="experience-section">
       <div className="max-w-4xl mx-auto">
         <h2 className="text-4xl font-bold text-center mb-16 text-primary" data-testid="experience-title">
-          Work Experience
+          Experience
         </h2>
         
         <div className="space-y-12">

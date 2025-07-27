@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a full-stack portfolio application built with React and Express.js. It provides a professional portfolio website with an admin panel for content management. The application features a clean, modern design using Tailwind CSS and shadcn/ui components, with a robust backend API for managing portfolio data.
+This is a minimalistic portfolio application built with React and Express.js, featuring a clean design with muted colors inspired by modern portfolio examples. It provides a professional portfolio website with an admin panel for content management. The application features smooth scrolling navigation, floating animations, and editable social links in the top navigation.
 
 ## User Preferences
 
@@ -37,7 +37,7 @@ Preferred communication style: Simple, everyday language.
 
 ### Database Schema
 The application uses five main entities:
-- **Users**: Personal information, bio, and profile images
+- **Users**: Personal information, bio, and social media links (LinkedIn, GitHub, Twitter)
 - **Skills**: Technical skills with proficiency levels and icons
 - **Projects**: Portfolio projects with images, descriptions, and technology stacks
 - **Experiences**: Work experience with company details and technologies used
@@ -57,13 +57,14 @@ RESTful API structure:
 - **404 Page**: Error handling for invalid routes
 
 ### UI Sections
-- **Hero Section**: Introduction with profile image and CTA
-- **About Section**: Personal bio and additional image
-- **Skills Section**: Technical skills with icons and proficiency
+- **Hero Section**: Clean introduction with name, title, and floating tech icons
+- **About Section**: Centered personal bio without images
+- **Skills Section**: Technical skills with icons and proficiency bars
 - **Projects Section**: Featured projects with links and technologies
-- **Experience Section**: Work history timeline
+- **Experience Section**: Work history timeline (renamed from "Work Experience")
 - **Contact Section**: Contact form with validation
-- **Footer**: Social links and copyright
+- **Footer**: Simple copyright footer
+- **Navigation**: Top navigation with social media icons (LinkedIn, GitHub, Twitter)
 
 ## Data Flow
 
@@ -123,5 +124,15 @@ RESTful API structure:
 2. `npm run build` creates production build
 3. `npm run start` runs production server
 4. `npm run db:push` applies schema changes
+
+## Recent Changes (January 2025)
+
+✓ Removed profile images from hero and about sections for cleaner design
+✓ Renamed "Work Experience" to "Experience" throughout the application
+✓ Moved social media icons (LinkedIn, GitHub, Twitter) to top navigation
+✓ Added editable social media links in admin panel profile section
+✓ Updated schema to include social media URLs (linkedinUrl, githubUrl, twitterUrl)
+✓ Simplified footer to only show copyright information
+✓ Centered about section content without side image
 
 The architecture prioritizes developer experience with hot reloading, type safety, and modern tooling while maintaining a simple deployment model suitable for platforms like Replit.

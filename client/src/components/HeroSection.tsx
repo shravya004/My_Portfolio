@@ -29,14 +29,7 @@ export default function HeroSection({ user }: HeroSectionProps) {
       data-testid="hero-section"
     >
       <div className="max-w-6xl mx-auto text-center">
-        <div className="mb-8">
-          <img 
-            src={user?.profileImage || "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200"}
-            alt="Profile" 
-            className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white shadow-lg"
-            data-testid="profile-image"
-          />
-        </div>
+
         
         <h1 className="text-5xl md:text-7xl font-bold mb-6 text-primary" data-testid="hero-title">
           Hi, I'm <span className="text-accent">{user?.name || "Your Name"}</span>.

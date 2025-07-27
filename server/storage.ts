@@ -69,8 +69,11 @@ export class MemStorage implements IStorage {
       description: "Passionate developer crafting modern web experiences with React, Node.js, and cutting-edge technologies.",
       bio: "I'm a passionate software engineer with expertise in building scalable web applications. I love solving complex problems and creating beautiful, user-friendly interfaces that make a real impact.",
       email: "your@email.com",
-      profileImage: "https://images.unsplash.com/photo-1531545514256-b1400bc00f31?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=200&h=200",
-      aboutImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&h=600"
+      linkedinUrl: "https://linkedin.com/in/yourprofile",
+      githubUrl: "https://github.com/yourusername", 
+      twitterUrl: "https://twitter.com/yourusername",
+      profileImage: null,
+      aboutImage: null
     };
 
     // Default skills
@@ -94,8 +97,8 @@ export class MemStorage implements IStorage {
         title: "E-commerce Platform",
         description: "A full-stack e-commerce solution with React, Node.js, and Stripe integration. Features include user authentication, product management, and payment processing.",
         image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: null,
+        githubUrl: null,
         technologies: ["React", "Node.js", "MongoDB"],
         featured: "true"
       },
@@ -103,8 +106,8 @@ export class MemStorage implements IStorage {
         title: "Task Management App",
         description: "A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
         image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
-        liveUrl: "#",
-        githubUrl: "#",
+        liveUrl: null,
+        githubUrl: null,
         technologies: ["Vue.js", "Firebase", "TypeScript"],
         featured: "true"
       }
