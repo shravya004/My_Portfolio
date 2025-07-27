@@ -1,4 +1,3 @@
-import { randomUUID } from "crypto";
 import { 
   type User, 
   type InsertUser,
@@ -13,20 +12,21 @@ import {
   type Contact,
   type InsertContact
 } from "@shared/schema";
+import { randomUUID } from "crypto";
 
 export interface IStorage {
   // User methods
   getUser(): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
   updateUser(user: Partial<InsertUser>): Promise<User | undefined>;
 
-  // Skill methods
+  // Skills methods
   getSkills(): Promise<Skill[]>;
-  getSkill(id: string): Promise<Skill | undefined>;
   createSkill(skill: InsertSkill): Promise<Skill>;
   updateSkill(id: string, skill: Partial<InsertSkill>): Promise<Skill | undefined>;
   deleteSkill(id: string): Promise<boolean>;
 
-  // Project methods
+  // Projects methods
   getProjects(): Promise<Project[]>;
   getProject(id: string): Promise<Project | undefined>;
   createProject(project: InsertProject): Promise<Project>;
@@ -66,11 +66,13 @@ export class MemStorage implements IStorage {
     this.experiences = new Map();
     this.certifications = new Map();
     this.contacts = new Map();
+    
+    // Initialize with default data
     this.initializeDefaultData();
   }
 
   private initializeDefaultData() {
-    // User data from resume
+    // Default user
     this.user = {
       id: randomUUID(),
       name: "Shravya Atreya",
@@ -85,8 +87,8 @@ export class MemStorage implements IStorage {
       aboutImage: null
     };
 
-    // Skills from resume
-    const skills = [
+    // Default skills
+    const defaultSkills = [
       { name: "Python", proficiency: "90", icon: "SiPython", category: "Language" },
       { name: "C", proficiency: "85", icon: "SiC", category: "Language" },
       { name: "C++", proficiency: "85", icon: "SiCplusplus", category: "Language" },
@@ -98,13 +100,35 @@ export class MemStorage implements IStorage {
       { name: "TensorFlow", proficiency: "75", icon: "SiTensorflow", category: "ML" }
     ];
 
-    skills.forEach(skill => {
+    defaultSkills.forEach(skill => {
       const id = randomUUID();
       this.skills.set(id, { id, ...skill });
     });
 
-    // Projects from resume
-    const projects = [
+    // Default projects
+    const defaultProjects = [
+      {
+        title: "E-commerce Platform",
+        description: "A full-stack e-commerce solution with React, Node.js, and Stripe integration. Features include user authentication, product management, and payment processing.",
+        image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
+        liveUrl: null,
+        githubUrl: null,
+        technologies: ["React", "Node.js", "MongoDB"],
+        featured: "true"
+      },
+      {
+        title: "Task Management App",
+        description: "A collaborative task management tool with real-time updates, drag-and-drop functionality, and team collaboration features.",
+        image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400",
+        liveUrl: null,
+        githubUrl: null,
+        technologies: ["Vue.js", "Firebase", "TypeScript"],
+        featured: "true"
+      }
+    ];
+
+    // Updated projects from resume
+    const resumeProjects = [
       {
         title: "PhishGuard",
         description: "Developed a real-time phishing detection tool leveraging DistilBERT for semantic scoring, combined with metadata-based behavioral heuristics. Combined semantic scoring and user metadata to detect phishing URLs in real time with low-latency inference.",
@@ -125,85 +149,55 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    projects.forEach(project => {
+    resumeProjects.forEach(project => {
       const id = randomUUID();
       this.projects.set(id, { id, ...project });
     });
 
-    // Experiences from resume
-    const experiences = [
+    // Default experiences
+    const defaultExperiences = [
       {
-        title: "Research Intern",
-        company: "VIT Chennai (SCOPE)",
-        duration: "May 2025 – July 2025",
-        description: "Worked on hybrid retrieval systems using BM25, vector search, and Reciprocal Rank Fusion (RRF) to improve QA accuracy. Contributed to model evaluation, prompt design, and technical documentation.",
-        technologies: ["Python", "BM25", "Vector Search", "RRF", "ML"],
-        current: "false"
-      },
-      {
-        title: "Infosys Springboard Pragti Intern",
-        company: "Infosys",
-        duration: "February 2025 – June 2025",
-        description: "Strengthened cross-functional competencies through modules on communication, personality development, and agile software engineering, aligning both technical and soft skill growth.",
-        technologies: ["Agile", "Communication", "Software Engineering"],
-        current: "false"
-      },
-      {
-        title: "Events Team Lead",
-        company: "Socrates Club",
-        duration: "2025 – 2026",
-        description: "Led discussions on ethics in AI, surveillance, and digital privacy to bridge philosophical inquiry with modern tech. Increased student participation by 3× through inclusive formats and active campus engagement.",
-        technologies: ["Leadership", "Event Management", "AI Ethics"],
+        title: "Senior Software Engineer",
+        company: "Tech Solutions Inc.",
+        duration: "2022 - Present",
+        description: "Led development of scalable web applications serving 100k+ users. Implemented CI/CD pipelines, mentored junior developers, and collaborated with cross-functional teams to deliver high-quality products.",
+        technologies: ["React", "Node.js", "AWS"],
         current: "true"
       },
       {
-        title: "Marketing Team Member",
-        company: "Google Developer Groups",
-        duration: "2023 – 2025",
-        description: "Conceptualized and executed LinkedIn/Instagram campaign; drove 30%+ boost in user registrations.",
-        technologies: ["Digital Marketing", "Social Media", "Campaign Management"],
+        title: "Full Stack Developer",
+        company: "StartupCo",
+        duration: "2020 - 2022",
+        description: "Built and maintained multiple client-facing applications. Worked closely with designers and product managers to create user-friendly interfaces and optimize application performance.",
+        technologies: ["Vue.js", "Python", "PostgreSQL"],
         current: "false"
       }
     ];
 
-    experiences.forEach(experience => {
+    defaultExperiences.forEach(experience => {
       const id = randomUUID();
       this.experiences.set(id, { id, ...experience });
     });
 
-    // Certifications from resume
-    const certifications = [
+    // Default certifications
+    const defaultCertifications = [
       {
-        name: "Google Cloud Computing Foundations",
-        issuer: "Google Cloud",
-        dateIssued: "2025",
+        name: "AWS Certified Cloud Practitioner",
+        issuer: "Amazon Web Services",
+        dateIssued: "2024",
         credentialUrl: "",
-        description: "Google Cloud Computing Foundations Certificate"
+        description: "Foundational cloud computing knowledge and AWS services."
       },
       {
-        name: "Postman API Fundamentals Student Expert",
-        issuer: "Postman API",
-        dateIssued: "2025",
+        name: "Python for Data Science",
+        issuer: "Coursera",
+        dateIssued: "2023",
         credentialUrl: "",
-        description: "Postman API Fundamentals Student Expert certification"
-      },
-      {
-        name: "Artificial Intelligence Foundation",
-        issuer: "Infosys Springboard",
-        dateIssued: "2025",
-        credentialUrl: "",
-        description: "Artificial Intelligence Foundation certification"
-      },
-      {
-        name: "Artificial Intelligence Primer Certification",
-        issuer: "Infosys Springboard",
-        dateIssued: "2025",
-        credentialUrl: "",
-        description: "Artificial Intelligence Primer Certification"
+        description: "Advanced Python programming for data analysis and machine learning."
       }
     ];
 
-    certifications.forEach(certification => {
+    defaultCertifications.forEach(certification => {
       const id = randomUUID();
       this.certifications.set(id, { id, ...certification });
     });
@@ -214,19 +208,22 @@ export class MemStorage implements IStorage {
     return this.user;
   }
 
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const id = randomUUID();
+    const user: User = { ...insertUser, id };
+    this.user = user;
+    return user;
+  }
+
   async updateUser(updates: Partial<InsertUser>): Promise<User | undefined> {
     if (!this.user) return undefined;
     this.user = { ...this.user, ...updates };
     return this.user;
   }
 
-  // Skill methods
+  // Skills methods
   async getSkills(): Promise<Skill[]> {
     return Array.from(this.skills.values());
-  }
-
-  async getSkill(id: string): Promise<Skill | undefined> {
-    return this.skills.get(id);
   }
 
   async createSkill(insertSkill: InsertSkill): Promise<Skill> {
@@ -248,7 +245,7 @@ export class MemStorage implements IStorage {
     return this.skills.delete(id);
   }
 
-  // Project methods
+  // Projects methods
   async getProjects(): Promise<Project[]> {
     return Array.from(this.projects.values());
   }
@@ -339,7 +336,11 @@ export class MemStorage implements IStorage {
 
   async createContact(insertContact: InsertContact): Promise<Contact> {
     const id = randomUUID();
-    const contact: Contact = { ...insertContact, id, createdAt: new Date().toISOString() };
+    const contact: Contact = { 
+      ...insertContact, 
+      id, 
+      createdAt: new Date().toISOString() 
+    };
     this.contacts.set(id, contact);
     return contact;
   }

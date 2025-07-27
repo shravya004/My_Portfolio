@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a minimalistic portfolio application built with React and Express.js, featuring a clean design with muted colors inspired by modern portfolio examples. It provides a professional portfolio website with an admin panel for content management. The application features smooth scrolling navigation, floating animations, and editable social links in the top navigation.
+This is a minimalistic portfolio application built with React and Express.js, featuring a clean design with muted colors inspired by modern portfolio examples. It provides a professional portfolio website showcasing Shravya Atreya's Computer Science background. The application features smooth scrolling navigation, floating animations, and social links in the top navigation. All content is permanently populated from Shravya's resume data.
 
 ## User Preferences
 
@@ -55,7 +55,6 @@ RESTful API structure:
 
 ### Frontend Pages
 - **Home Page**: Complete portfolio showcase with all sections
-- **Admin Page**: Content management interface
 - **404 Page**: Error handling for invalid routes
 
 ### UI Sections
@@ -83,11 +82,11 @@ RESTful API structure:
 3. Form submissions trigger API mutations
 4. Success/error feedback via toast notifications
 
-### Admin Content Management
-1. Admin panel provides CRUD operations for all content types
-2. Modal dialogs for creating/editing content
-3. Optimistic updates for better user experience
-4. Form validation prevents invalid data submission
+### Static Content Management
+1. All content is permanently populated from Shravya Atreya's resume
+2. Real project data: PhishGuard (phishing detection tool) and PitchPerfectAI (cover letter generator)
+3. Authentic experience data: Research intern at VIT Chennai, Infosys intern, leadership roles
+4. Verified certifications: Google Cloud, Postman API, Infosys AI certifications
 
 ## External Dependencies
 
@@ -142,5 +141,10 @@ RESTful API structure:
 ✓ Updated About section with personalized Computer Science student bio
 ✓ Removed proficiency percentage bars from skills display
 ✓ Added interactive hover effects for skill icons
+✓ Removed admin panel entirely and populated with real resume data
+✓ Added authentic projects: PhishGuard and PitchPerfectAI from resume
+✓ Added real experiences: VIT Chennai research intern, Infosys intern, club leadership
+✓ Added verified certifications: Google Cloud, Postman API, Infosys AI certifications
+✓ Updated personal information: Shravya Atreya, B.Tech CSE Student at VIT Chennai
 
 The architecture prioritizes developer experience with hot reloading, type safety, and modern tooling while maintaining a simple deployment model suitable for platforms like Replit.

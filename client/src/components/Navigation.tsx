@@ -4,11 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Linkedin, Github, Twitter } from "lucide-react";
 import { User } from "@shared/schema";
 
-interface NavigationProps {
-  onAdminClick: () => void;
-}
-
-export default function Navigation({ onAdminClick }: NavigationProps) {
+export default function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { data: user } = useQuery<User>({ queryKey: ["/api/user"] });
 
@@ -112,13 +108,6 @@ export default function Navigation({ onAdminClick }: NavigationProps) {
               Contact
             </button>
           </div>
-          <Button 
-            onClick={onAdminClick}
-            className="bg-accent text-white hover:bg-blue-600 transition-colors duration-200"
-            data-testid="admin-button"
-          >
-            Admin
-          </Button>
         </div>
       </div>
     </nav>
