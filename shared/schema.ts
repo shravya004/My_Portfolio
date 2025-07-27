@@ -46,6 +46,15 @@ export const experiences = pgTable("experiences", {
   current: text("current").notNull().default("false"),
 });
 
+export const certifications = pgTable("certifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  issuer: text("issuer").notNull(),
+  dateIssued: text("date_issued").notNull(),
+  credentialUrl: text("credential_url"),
+  description: text("description"),
+});
+
 export const contacts = pgTable("contacts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
@@ -72,6 +81,10 @@ export const insertExperienceSchema = createInsertSchema(experiences).omit({
   id: true,
 });
 
+export const insertCertificationSchema = createInsertSchema(certifications).omit({
+  id: true,
+});
+
 export const insertContactSchema = createInsertSchema(contacts).omit({
   id: true,
   createdAt: true,
@@ -89,6 +102,9 @@ export type InsertProject = z.infer<typeof insertProjectSchema>;
 
 export type Experience = typeof experiences.$inferSelect;
 export type InsertExperience = z.infer<typeof insertExperienceSchema>;
+
+export type Certification = typeof certifications.$inferSelect;
+export type InsertCertification = z.infer<typeof insertCertificationSchema>;
 
 export type Contact = typeof contacts.$inferSelect;
 export type InsertContact = z.infer<typeof insertContactSchema>;

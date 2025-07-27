@@ -6,12 +6,15 @@ import {
   User, 
   Project, 
   Experience, 
+  Certification,
   insertUserSchema, 
   insertProjectSchema, 
   insertExperienceSchema,
+  insertCertificationSchema,
   type InsertUser,
   type InsertProject,
-  type InsertExperience
+  type InsertExperience,
+  type InsertCertification
 } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { Button } from "@/components/ui/button";
@@ -34,13 +37,16 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
   const queryClient = useQueryClient();
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingExperience, setEditingExperience] = useState<Experience | null>(null);
+  const [editingCertification, setEditingCertification] = useState<Certification | null>(null);
   const [isProjectDialogOpen, setIsProjectDialogOpen] = useState(false);
   const [isExperienceDialogOpen, setIsExperienceDialogOpen] = useState(false);
+  const [isCertificationDialogOpen, setIsCertificationDialogOpen] = useState(false);
 
   // Queries
   const { data: user } = useQuery<User>({ queryKey: ["/api/user"] });
   const { data: projects = [] } = useQuery<Project[]>({ queryKey: ["/api/projects"] });
   const { data: experiences = [] } = useQuery<Experience[]>({ queryKey: ["/api/experiences"] });
+  const { data: certifications = [] } = useQuery<Certification[]>({ queryKey: ["/api/certifications"] });
 
   // User form
   const userForm = useForm<InsertUser>({
@@ -83,6 +89,18 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
       description: "",
       technologies: [],
       current: "false",
+    },
+  });
+
+  // Certification form
+  const certificationForm = useForm<InsertCertification>({
+    resolver: zodResolver(insertCertificationSchema),
+    defaultValues: {
+      name: "",
+      issuer: "",
+      dateIssued: "",
+      credentialUrl: "",
+      description: "",
     },
   });
 
@@ -172,6 +190,43 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
     },
   });
 
+  const createCertificationMutation = useMutation({
+    mutationFn: async (data: InsertCertification) => {
+      const response = await apiRequest("POST", "/api/certifications", data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/certifications"] });
+      setIsCertificationDialogOpen(false);
+      certificationForm.reset();
+      toast({ title: "Certification created successfully!" });
+    },
+  });
+
+  const updateCertificationMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: Partial<InsertCertification> }) => {
+      const response = await apiRequest("PUT", `/api/certifications/${id}`, data);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/certifications"] });
+      setIsCertificationDialogOpen(false);
+      setEditingCertification(null);
+      certificationForm.reset();
+      toast({ title: "Certification updated successfully!" });
+    },
+  });
+
+  const deleteCertificationMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest("DELETE", `/api/certifications/${id}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/certifications"] });
+      toast({ title: "Certification deleted successfully!" });
+    },
+  });
+
   // Handlers
   const handleUserSubmit = (data: InsertUser) => {
     updateUserMutation.mutate(data);
@@ -205,6 +260,14 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
     }
   };
 
+  const handleCertificationSubmit = (data: InsertCertification) => {
+    if (editingCertification) {
+      updateCertificationMutation.mutate({ id: editingCertification.id, data });
+    } else {
+      createCertificationMutation.mutate(data);
+    }
+  };
+
   const openProjectDialog = (project?: Project) => {
     if (project) {
       setEditingProject(project);
@@ -233,6 +296,17 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
     setIsExperienceDialogOpen(true);
   };
 
+  const openCertificationDialog = (certification?: Certification) => {
+    if (certification) {
+      setEditingCertification(certification);
+      certificationForm.reset(certification);
+    } else {
+      setEditingCertification(null);
+      certificationForm.reset();
+    }
+    setIsCertificationDialogOpen(true);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -255,10 +329,11 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
           
           <div className="p-6">
             <Tabs defaultValue="profile" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="profile" data-testid="tab-profile">Profile</TabsTrigger>
                 <TabsTrigger value="projects" data-testid="tab-projects">Projects</TabsTrigger>
                 <TabsTrigger value="experience" data-testid="tab-experience">Experience</TabsTrigger>
+                <TabsTrigger value="certifications" data-testid="tab-certifications">Certifications</TabsTrigger>
               </TabsList>
               
               <TabsContent value="profile" className="mt-6">
@@ -468,6 +543,53 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
                   </CardContent>
                 </Card>
               </TabsContent>
+              
+              <TabsContent value="certifications" className="mt-6">
+                <Card>
+                  <CardHeader>
+                    <div className="flex justify-between items-center">
+                      <CardTitle>Certifications</CardTitle>
+                      <Button onClick={() => openCertificationDialog()} data-testid="add-certification">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add Certification
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {certifications.map((certification) => (
+                        <div key={certification.id} className="bg-gray-50 p-4 rounded-lg" data-testid={`certification-item-${certification.id}`}>
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-medium">{certification.name}</h4>
+                              <p className="text-sm text-accent">{certification.issuer}</p>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => openCertificationDialog(certification)}
+                                data-testid={`edit-certification-${certification.id}`}
+                              >
+                                <Edit className="w-4 h-4" />
+                              </Button>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => deleteCertificationMutation.mutate(certification.id)}
+                                data-testid={`delete-certification-${certification.id}`}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </div>
+                          </div>
+                          <p className="text-sm text-secondary">{certification.dateIssued}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </TabsContent>
             </Tabs>
           </div>
         </div>
@@ -609,6 +731,72 @@ export default function AdminPanel({ isOpen, onClose }: AdminPanelProps) {
                 variant="outline" 
                 onClick={() => setIsExperienceDialogOpen(false)}
                 data-testid="cancel-experience"
+              >
+                Cancel
+              </Button>
+            </div>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Certification Dialog */}
+      <Dialog open={isCertificationDialogOpen} onOpenChange={setIsCertificationDialogOpen}>
+        <DialogContent className="max-w-2xl" data-testid="certification-dialog">
+          <DialogHeader>
+            <DialogTitle>{editingCertification ? "Edit Certification" : "Add New Certification"}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={certificationForm.handleSubmit(handleCertificationSubmit)} className="space-y-4">
+            <div>
+              <Label htmlFor="certification-name">Certification Name</Label>
+              <Input
+                id="certification-name"
+                {...certificationForm.register("name")}
+                data-testid="input-certification-name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="certification-issuer">Issuer</Label>
+              <Input
+                id="certification-issuer"
+                {...certificationForm.register("issuer")}
+                data-testid="input-certification-issuer"
+              />
+            </div>
+            <div>
+              <Label htmlFor="certification-date">Date Issued</Label>
+              <Input
+                id="certification-date"
+                {...certificationForm.register("dateIssued")}
+                placeholder="2024"
+                data-testid="input-certification-date"
+              />
+            </div>
+            <div>
+              <Label htmlFor="certification-url">Credential URL</Label>
+              <Input
+                id="certification-url"
+                {...certificationForm.register("credentialUrl")}
+                data-testid="input-certification-url"
+              />
+            </div>
+            <div>
+              <Label htmlFor="certification-description">Description</Label>
+              <Textarea
+                id="certification-description"
+                {...certificationForm.register("description")}
+                rows={3}
+                data-testid="input-certification-description"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button type="submit" data-testid="save-certification">
+                {editingCertification ? "Update Certification" : "Create Certification"}
+              </Button>
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsCertificationDialogOpen(false)}
+                data-testid="cancel-certification"
               >
                 Cancel
               </Button>

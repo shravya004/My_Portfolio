@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { Skill } from "@shared/schema";
-import { SiReact, SiJavascript, SiNodedotjs, SiTypescript, SiPython, SiDocker } from "react-icons/si";
+import { SiPython, SiC, SiCplusplus, SiJavascript, SiHtml5, SiReact, SiFlask, SiTensorflow } from "react-icons/si";
 
 const iconMap: Record<string, any> = {
-  SiReact,
-  SiJavascript,
-  SiNodedotjs,
-  SiTypescript,
   SiPython,
-  SiDocker,
+  SiC,
+  SiCplusplus,
+  SiJavascript,
+  SiHtml5,
+  SiReact,
+  SiFlask,
+  SiTensorflow,
 };
 
 export default function SkillsSection() {
@@ -43,20 +45,13 @@ export default function SkillsSection() {
             return (
               <div 
                 key={skill.id}
-                className="bg-muted rounded-xl p-6 text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="bg-muted rounded-xl p-6 text-center hover:shadow-lg transition-all duration-200 transform hover:scale-105 cursor-pointer group"
                 data-testid={`skill-${skill.name.toLowerCase()}`}
               >
                 {IconComponent && (
-                  <IconComponent className="text-4xl mx-auto mb-4 text-accent" />
+                  <IconComponent className="text-4xl mx-auto mb-4 text-accent group-hover:text-blue-600 transition-colors duration-200" />
                 )}
-                <h3 className="font-semibold text-primary mb-2">{skill.name}</h3>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-accent h-2 rounded-full transition-all duration-500" 
-                    style={{ width: `${skill.proficiency}%` }}
-                  />
-                </div>
-                <span className="text-xs text-secondary mt-1 block">{skill.proficiency}%</span>
+                <h3 className="font-semibold text-primary group-hover:text-accent transition-colors duration-200">{skill.name}</h3>
               </div>
             );
           })}

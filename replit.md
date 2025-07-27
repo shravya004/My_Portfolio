@@ -36,11 +36,12 @@ Preferred communication style: Simple, everyday language.
 ## Key Components
 
 ### Database Schema
-The application uses five main entities:
+The application uses six main entities:
 - **Users**: Personal information, bio, and social media links (LinkedIn, GitHub, Twitter)
-- **Skills**: Technical skills with proficiency levels and icons
+- **Skills**: Technical skills with proficiency levels and icons (updated to specific technologies)
 - **Projects**: Portfolio projects with images, descriptions, and technology stacks
 - **Experiences**: Work experience with company details and technologies used
+- **Certifications**: Professional certifications with issuer, date, and credential URLs
 - **Contacts**: Contact form submissions from visitors
 
 ### API Endpoints
@@ -49,6 +50,7 @@ RESTful API structure:
 - `GET/POST/PUT/DELETE /api/skills` - Skills CRUD operations
 - `GET/POST/PUT/DELETE /api/projects` - Projects CRUD operations
 - `GET/POST/PUT/DELETE /api/experiences` - Experience CRUD operations
+- `GET/POST/PUT/DELETE /api/certifications` - Certifications CRUD operations
 - `POST /api/contacts` - Contact form submission
 
 ### Frontend Pages
@@ -59,11 +61,12 @@ RESTful API structure:
 ### UI Sections
 - **Hero Section**: Clean introduction with name, title, and floating tech icons
 - **About Section**: Centered personal bio without images
-- **Skills Section**: Technical skills with icons and proficiency bars
+- **Skills Section**: Interactive tech skills display (Python, C, C++, Java, JavaScript, HTML/CSS, ReactJS, Flask, TensorFlow)
 - **Projects Section**: Featured projects with links and technologies
 - **Experience Section**: Work history timeline (renamed from "Work Experience")
+- **Certifications Section**: Professional certifications with issuer details and credential links
 - **Contact Section**: Contact form with validation
-- **Footer**: Simple copyright footer
+- **Footer**: Simple copyright footer (updated to 2025)
 - **Navigation**: Top navigation with social media icons (LinkedIn, GitHub, Twitter)
 
 ## Data Flow
@@ -132,7 +135,12 @@ RESTful API structure:
 ✓ Moved social media icons (LinkedIn, GitHub, Twitter) to top navigation
 ✓ Added editable social media links in admin panel profile section
 ✓ Updated schema to include social media URLs (linkedinUrl, githubUrl, twitterUrl)
-✓ Simplified footer to only show copyright information
+✓ Simplified footer to only show copyright information (updated to 2025)
 ✓ Centered about section content without side image
+✓ Added Certifications section with full CRUD functionality
+✓ Updated Skills section to show specific technologies interactively
+✓ Updated About section with personalized Computer Science student bio
+✓ Removed proficiency percentage bars from skills display
+✓ Added interactive hover effects for skill icons
 
 The architecture prioritizes developer experience with hot reloading, type safety, and modern tooling while maintaining a simple deployment model suitable for platforms like Replit.

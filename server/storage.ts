@@ -7,6 +7,8 @@ import {
   type InsertProject,
   type Experience,
   type InsertExperience,
+  type Certification,
+  type InsertCertification,
   type Contact,
   type InsertContact
 } from "@shared/schema";
@@ -38,6 +40,13 @@ export interface IStorage {
   updateExperience(id: string, experience: Partial<InsertExperience>): Promise<Experience | undefined>;
   deleteExperience(id: string): Promise<boolean>;
 
+  // Certification methods
+  getCertifications(): Promise<Certification[]>;
+  getCertification(id: string): Promise<Certification | undefined>;
+  createCertification(certification: InsertCertification): Promise<Certification>;
+  updateCertification(id: string, certification: Partial<InsertCertification>): Promise<Certification | undefined>;
+  deleteCertification(id: string): Promise<boolean>;
+
   // Contact methods
   getContacts(): Promise<Contact[]>;
   createContact(contact: InsertContact): Promise<Contact>;
@@ -48,12 +57,14 @@ export class MemStorage implements IStorage {
   private skills: Map<string, Skill>;
   private projects: Map<string, Project>;
   private experiences: Map<string, Experience>;
+  private certifications: Map<string, Certification>;
   private contacts: Map<string, Contact>;
 
   constructor() {
     this.skills = new Map();
     this.projects = new Map();
     this.experiences = new Map();
+    this.certifications = new Map();
     this.contacts = new Map();
     
     // Initialize with default data
@@ -67,7 +78,7 @@ export class MemStorage implements IStorage {
       name: "Your Name",
       title: "Software Engineer",
       description: "Passionate developer crafting modern web experiences with React, Node.js, and cutting-edge technologies.",
-      bio: "I'm a passionate software engineer with expertise in building scalable web applications. I love solving complex problems and creating beautiful, user-friendly interfaces that make a real impact.",
+      bio: "I'm a Computer Science undergrad with a knack for blending creativity and technology to build impactful solutions. From crafting responsive frontends to deploying intelligent backend systems, I thrive at the intersection of design, logic, and user empathy. Currently exploring real-time ML applications, cybersecurity, and full-stack web development. I've worked with developer communities, led event marketing, and interned on research-heavy teams — all while keeping a sharp focus on building things that solve real problems. When I'm not coding, you'll find me sketching interfaces, experimenting with UI ideas, or helping organize community-driven events. Let's build something awesome together 🚀",
       email: "your@email.com",
       linkedinUrl: "https://linkedin.com/in/yourprofile",
       githubUrl: "https://github.com/yourusername", 
@@ -78,12 +89,15 @@ export class MemStorage implements IStorage {
 
     // Default skills
     const defaultSkills = [
-      { name: "React", proficiency: "90", icon: "SiReact", category: "Frontend" },
-      { name: "JavaScript", proficiency: "95", icon: "SiJavascript", category: "Language" },
-      { name: "Node.js", proficiency: "85", icon: "SiNodedotjs", category: "Backend" },
-      { name: "TypeScript", proficiency: "88", icon: "SiTypescript", category: "Language" },
-      { name: "Python", proficiency: "80", icon: "SiPython", category: "Language" },
-      { name: "Docker", proficiency: "75", icon: "SiDocker", category: "DevOps" }
+      { name: "Python", proficiency: "90", icon: "SiPython", category: "Language" },
+      { name: "C", proficiency: "85", icon: "SiC", category: "Language" },
+      { name: "C++", proficiency: "85", icon: "SiCplusplus", category: "Language" },
+      { name: "Java", proficiency: "80", icon: "SiJavascript", category: "Language" },
+      { name: "JavaScript", proficiency: "88", icon: "SiJavascript", category: "Language" },
+      { name: "HTML/CSS", proficiency: "90", icon: "SiHtml5", category: "Frontend" },
+      { name: "ReactJS", proficiency: "85", icon: "SiReact", category: "Frontend" },
+      { name: "Flask", proficiency: "80", icon: "SiFlask", category: "Backend" },
+      { name: "TensorFlow", proficiency: "75", icon: "SiTensorflow", category: "ML" }
     ];
 
     defaultSkills.forEach(skill => {
@@ -141,6 +155,29 @@ export class MemStorage implements IStorage {
     defaultExperiences.forEach(experience => {
       const id = randomUUID();
       this.experiences.set(id, { id, ...experience });
+    });
+
+    // Default certifications
+    const defaultCertifications = [
+      {
+        name: "AWS Certified Cloud Practitioner",
+        issuer: "Amazon Web Services",
+        dateIssued: "2024",
+        credentialUrl: "",
+        description: "Foundational cloud computing knowledge and AWS services."
+      },
+      {
+        name: "Python for Data Science",
+        issuer: "Coursera",
+        dateIssued: "2023",
+        credentialUrl: "",
+        description: "Advanced Python programming for data analysis and machine learning."
+      }
+    ];
+
+    defaultCertifications.forEach(certification => {
+      const id = randomUUID();
+      this.certifications.set(id, { id, ...certification });
     });
   }
 
@@ -240,6 +277,34 @@ export class MemStorage implements IStorage {
 
   async deleteExperience(id: string): Promise<boolean> {
     return this.experiences.delete(id);
+  }
+
+  // Certification methods
+  async getCertifications(): Promise<Certification[]> {
+    return Array.from(this.certifications.values());
+  }
+
+  async getCertification(id: string): Promise<Certification | undefined> {
+    return this.certifications.get(id);
+  }
+
+  async createCertification(insertCertification: InsertCertification): Promise<Certification> {
+    const id = randomUUID();
+    const certification: Certification = { ...insertCertification, id };
+    this.certifications.set(id, certification);
+    return certification;
+  }
+
+  async updateCertification(id: string, updates: Partial<InsertCertification>): Promise<Certification | undefined> {
+    const certification = this.certifications.get(id);
+    if (!certification) return undefined;
+    const updatedCertification = { ...certification, ...updates };
+    this.certifications.set(id, updatedCertification);
+    return updatedCertification;
+  }
+
+  async deleteCertification(id: string): Promise<boolean> {
+    return this.certifications.delete(id);
   }
 
   // Contact methods

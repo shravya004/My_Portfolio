@@ -6,6 +6,7 @@ import {
   insertSkillSchema, 
   insertProjectSchema, 
   insertExperienceSchema, 
+  insertCertificationSchema,
   insertContactSchema 
 } from "@shared/schema";
 
@@ -168,6 +169,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ message: "Experience deleted successfully" });
     } catch (error) {
       res.status(500).json({ message: "Failed to delete experience" });
+    }
+  });
+
+  // Certification routes
+  app.get("/api/certifications", async (req, res) => {
+    try {
+      const certifications = await storage.getCertifications();
+      res.json(certifications);
+    } catch (error) {
+      res.status(500).json({ message: "Failed to fetch certifications" });
+    }
+  });
+
+  app.post("/api/certifications", async (req, res) => {
+    try {
+      const validatedData = insertCertificationSchema.parse(req.body);
+      const certification = await storage.createCertification(validatedData);
+      res.json(certification);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid certification data" });
+    }
+  });
+
+  app.put("/api/certifications/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const validatedData = insertCertificationSchema.partial().parse(req.body);
+      const certification = await storage.updateCertification(id, validatedData);
+      if (!certification) {
+        return res.status(404).json({ message: "Certification not found" });
+      }
+      res.json(certification);
+    } catch (error) {
+      res.status(400).json({ message: "Invalid certification data" });
+    }
+  });
+
+  app.delete("/api/certifications/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const deleted = await storage.deleteCertification(id);
+      if (!deleted) {
+        return res.status(404).json({ message: "Certification not found" });
+      }
+      res.json({ message: "Certification deleted successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Failed to delete certification" });
     }
   });
 

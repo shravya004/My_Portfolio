@@ -14,15 +14,7 @@ export default function AboutSection({ user }: AboutSectionProps) {
           </h2>
           <div className="prose prose-lg text-secondary space-y-6">
             <p data-testid="about-bio">
-              {user?.bio || "I'm a passionate software engineer with expertise in building scalable web applications. I love solving complex problems and creating beautiful, user-friendly interfaces that make a real impact."}
-            </p>
-            <p>
-              When I'm not coding, you'll find me exploring new technologies, contributing to open source projects, 
-              or sharing my knowledge with the developer community through blog posts and mentoring.
-            </p>
-            <p>
-              I'm currently focused on full-stack development with React, Node.js, and cloud technologies, 
-              always staying up-to-date with the latest industry trends and best practices.
+              {user?.bio || "I'm a Computer Science undergrad with a knack for blending creativity and technology to build impactful solutions. From crafting responsive frontends to deploying intelligent backend systems, I thrive at the intersection of design, logic, and user empathy. Currently exploring real-time ML applications, cybersecurity, and full-stack web development. I've worked with developer communities, led event marketing, and interned on research-heavy teams — all while keeping a sharp focus on building things that solve real problems. When I'm not coding, you'll find me sketching interfaces, experimenting with UI ideas, or helping organize community-driven events. Let's build something awesome together 🚀"}
             </p>
           </div>
         </div>
